@@ -1,3 +1,5 @@
+-- #region Inserts
+
 INSERT INTO
     [User]
 VALUES
@@ -10,15 +12,54 @@ VALUES
         'gabriel-silva'
 )
 
+INSERT INTO
+    [Role]
+VALUES
+    (
+        'Autor',
+        'author'
+    )
+
+INSERT INTO
+    [Tag]
+VALUES
+    (
+        'ASP.NET',
+        'aspnet'
+    )
+
+INSERT INTO
+    [UserRole]
+VALUES
+    (
+        1,
+        1
+    )
+
+-- #endregion
+
+-- #region Selects
+
 SELECT *
 FROM [User]
 
-/*
-    [Id] INT NOT NULL IDENTITY(1, 1),
-    [Name] NVARCHAR(80) NOT NULL,
-    [Email] VARCHAR(200) NOT NULL,
-    [PasswordHash] VARCHAR(255) NOT NULL,
-    [Bio] TEXT NOT NULL,
-    [Image] VARCHAR(2000) NOT NULL,
-    [Slug] VARCHAR(80) NOT NULL, -- User URL
-*/
+SELECT *
+FROM [Role]
+
+SELECT *
+FROM [UserRole]
+
+SELECT *
+FROM [Tag]
+
+-- Trazer todos os Users junto com todas as suas Roles
+-- Importante usar Left Join ao invés do Inner Join porque dessa forma trazemos todos os Users mesmo que eles não tenham nenhuma Role
+
+SELECT
+    [User].*,
+    [Role].*
+FROM [User]
+    LEFT JOIN [UserRole] ON [UserRole].[UserId] = [User].[Id]
+    LEFT JOIN [Role] ON [UserRole].[RoleId] = [Role].[Id]
+    
+-- #endregion

@@ -10,83 +10,52 @@ var connection = new SqlConnection(CONNECTION_STRING);
 
 connection.Open();
 
-ReadUsers(connection);
+ReadUsersWithRoles(connection);
+// ReadUsers(connection);
+// ReadRoles(connection);
+// ReadTags(connection);
 // ReadUser();
 // CreateUser();
 // UpdateUser();
 
 connection.Close();
 
+static void ReadUsersWithRoles(SqlConnection connection)
+{
+    var repository = new UserRepository(connection);
+    var users = repository.GetWithRoles();
+
+    foreach (var user in users)
+    {
+        Console.WriteLine(user.Name);
+        foreach (var role in user.Roles)
+            Console.WriteLine(role.Name);
+    }
+}
 
 static void ReadUsers(SqlConnection connection)
 {
-    var repository = new UserRepository(connection);
+    var repository = new Repository<User>(connection);
     var users = repository.Get();
 
     foreach (var user in users)
         Console.WriteLine(user.Name);
 }
 
-static void ReadUser(SqlConnection connection)
+static void ReadRoles(SqlConnection connection)
 {
-    var repository = new UserRepository(connection);
+    var repository = new Repository<Role>(connection);
+    var roles = repository.Get();
 
-    // Get => SELECT * FROM ... WHERE ID = ...
-    var user = connection.Get<User>(1);
-
-    Console.WriteLine(user.Name);
-
+    foreach (var role in roles)
+        Console.WriteLine(role.Name);
 }
 
-static void CreateUser()
+static void ReadTags(SqlConnection connection)
 {
-    var user = new User()
-    {
-        Name = "Equipe balta.io",
-        Email = "hello@balta.io",
-        PasswordHash = "PASSWORDHASH",
-        Bio = "Equipe do balta",
-        Image = "https://...",
-        Slug = "equipe-balta"
-    };
+    var repository = new Repository<Tag>(connection);
+    var tags = repository.Get();
 
-    using (var connection = new SqlConnection(CONNECTION_STRING))
-    {
-        var id = connection.Insert<User>(user);
-
-        Console.WriteLine($"Id gerado: {id}");
-    }
-}
-
-static void UpdateUser()
-{
-    var user = new User()
-    {
-        Id = 2, // Obrigatório passa o Id para fazer o update
-        Name = "Equipe balta.io (updated)",
-        Email = "hello@balta.io",
-        PasswordHash = "PASSWORDHASH",
-        Bio = "Equipe do balta",
-        Image = "https://...",
-        Slug = "equipe-balta"
-    };
-
-    using (var connection = new SqlConnection(CONNECTION_STRING))
-    {
-        connection.Update<User>(user);
-
-        Console.WriteLine("Update realizado.");
-    }
-}
-
-static void DeleteUser()
-{
-    using (var connection = new SqlConnection(CONNECTION_STRING))
-    {
-        var user = connection.Get<User>(2);
-
-        connection.Delete<User>(user);
-
-        Console.WriteLine("Delete realizado.");
-    }
+    foreach (var tag in tags)
+        Console.WriteLine(tag.Name);
 }
