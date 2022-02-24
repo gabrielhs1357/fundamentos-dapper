@@ -1,15 +1,17 @@
 INSERT INTO
     [User]
-VALUES (
-    'Gabriel Silva',
-    'gabrielhs1357@gmail.com',
-    'PASSWORDHASH',
-    'Bio',
-    'image-blob.com',
-    'gabriel-silva'
+VALUES
+    (
+        'Gabriel Silva',
+        'gabrielhs1357@gmail.com',
+        'PASSWORDHASH',
+        'Bio',
+        'image-blob.com',
+        'gabriel-silva'
 )
 
-SELECT * FROM [User]
+SELECT *
+FROM [User]
 
 /*
     [Id] INT NOT NULL IDENTITY(1, 1),

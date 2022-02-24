@@ -12,14 +12,16 @@ GO
 -- DROP TABLE [Tag]
 -- DROP TABLE [PostTag]
 
-CREATE TABLE [User] (
+CREATE TABLE [User]
+(
     [Id] INT NOT NULL IDENTITY(1, 1),
     [Name] NVARCHAR(80) NOT NULL,
     [Email] VARCHAR(200) NOT NULL,
     [PasswordHash] VARCHAR(255) NOT NULL,
     [Bio] TEXT NOT NULL,
     [Image] VARCHAR(2000) NOT NULL,
-    [Slug] VARCHAR(80) NOT NULL, -- User URL
+    [Slug] VARCHAR(80) NOT NULL,
+    -- User URL
 
     CONSTRAINT [PK_User] PRIMARY KEY([Id]),
     CONSTRAINT [UQ_User_Email] UNIQUE([Email]),
@@ -28,7 +30,8 @@ CREATE TABLE [User] (
 CREATE NONCLUSTERED INDEX [IX_User_Email] ON [User]([Email])
 CREATE NONCLUSTERED INDEX [IX_User_Slug] ON [User]([Slug])
 
-CREATE TABLE [Role] (
+CREATE TABLE [Role]
+(
     [Id] INT NOT NULL IDENTITY(1, 1),
     [Name] VARCHAR(80) NOT NULL,
     [Slug] VARCHAR(80) NOT NULL,
@@ -38,14 +41,16 @@ CREATE TABLE [Role] (
 )
 CREATE NONCLUSTERED INDEX [IX_Role_Slug] ON [Role]([Slug])
 
-CREATE TABLE [UserRole] (
+CREATE TABLE [UserRole]
+(
     [UserId] INT NOT NULL,
     [RoleId] INT NOT NULL,
 
     CONSTRAINT [PK_UserRole] PRIMARY KEY([UserId], [RoleId])
 )
 
-CREATE TABLE [Category] (
+CREATE TABLE [Category]
+(
     [Id] INT NOT NULL IDENTITY(1, 1),
     [Name] VARCHAR(80) NOT NULL,
     [Slug] VARCHAR(80) NOT NULL,
@@ -55,7 +60,8 @@ CREATE TABLE [Category] (
 )
 CREATE NONCLUSTERED INDEX [IX_Category_Slug] ON [Category]([Slug])
 
-CREATE TABLE [Post] (
+CREATE TABLE [Post]
+(
     [Id] INT NOT NULL IDENTITY(1, 1),
     [CategoryId] INT NOT NULL,
     [AuthorId] INT NOT NULL,
@@ -73,7 +79,8 @@ CREATE TABLE [Post] (
 )
 CREATE NONCLUSTERED INDEX [IX_Post_Slug] ON [Post]([Slug])
 
-CREATE TABLE [Tag] (
+CREATE TABLE [Tag]
+(
     [Id] INT NOT NULL IDENTITY(1, 1),
     [Name] VARCHAR(80) NOT NULL,
     [Slug] VARCHAR(80) NOT NULL,
@@ -83,7 +90,8 @@ CREATE TABLE [Tag] (
 )
 CREATE NONCLUSTERED INDEX [IX_Tag_Slug] ON [Tag]([Slug])
 
-CREATE TABLE [PostTag] (
+CREATE TABLE [PostTag]
+(
     [PostId] INT NOT NULL,
     [TagId] INT NOT NULL,
 
