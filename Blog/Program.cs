@@ -1,61 +1,39 @@
-﻿using Blog.Models;
-using Blog.Repositories;
-// using Dapper;
-using Dapper.Contrib.Extensions;
+﻿using Blog;
+using Blog.Screens.TagScreens;
 using Microsoft.Data.SqlClient;
 
 const string CONNECTION_STRING = @"Server=localhost,1433;Database=Blog;User ID=sa;Password=1q2w3e4r@#$; TrustServerCertificate=True";
 
-var connection = new SqlConnection(CONNECTION_STRING);
+Database.Connection = new SqlConnection(CONNECTION_STRING);
+Database.Connection.Open();
 
-connection.Open();
+Load();
 
-ReadUsersWithRoles(connection);
-// ReadUsers(connection);
-// ReadRoles(connection);
-// ReadTags(connection);
-// ReadUser();
-// CreateUser();
-// UpdateUser();
+Console.ReadKey();
 
-connection.Close();
+Database.Connection.Close();
 
-static void ReadUsersWithRoles(SqlConnection connection)
+void Load()
 {
-    var repository = new UserRepository(connection);
-    var users = repository.GetWithRoles();
+    Console.Clear();
+    Console.WriteLine("Meu Blog");
+    Console.WriteLine("---------");
+    Console.WriteLine("O que deseja fazer?\n\n");
+    Console.WriteLine("1 - Gestão de usuário");
+    Console.WriteLine("2 - Gestão de perfil");
+    Console.WriteLine("3 - Gestão de categoria");
+    Console.WriteLine("4 - Gestão de tag");
+    Console.WriteLine("5 - Gestão de perfil/usuário");
+    Console.WriteLine("6 - Gestão de post/tag");
+    Console.WriteLine("7 - Relatórios\n\n");
 
-    foreach (var user in users)
+    var option = short.Parse(Console.ReadLine());
+
+    switch (option)
     {
-        Console.WriteLine(user.Name);
-        foreach (var role in user.Roles)
-            Console.WriteLine(role.Name);
+        case 4:
+            MenuTagScreen.Load();
+            break;
+        default: Load(); break;
     }
-}
-
-static void ReadUsers(SqlConnection connection)
-{
-    var repository = new Repository<User>(connection);
-    var users = repository.Get();
-
-    foreach (var user in users)
-        Console.WriteLine(user.Name);
-}
-
-static void ReadRoles(SqlConnection connection)
-{
-    var repository = new Repository<Role>(connection);
-    var roles = repository.Get();
-
-    foreach (var role in roles)
-        Console.WriteLine(role.Name);
-}
-
-static void ReadTags(SqlConnection connection)
-{
-    var repository = new Repository<Tag>(connection);
-    var tags = repository.Get();
-
-    foreach (var tag in tags)
-        Console.WriteLine(tag.Name);
 }
